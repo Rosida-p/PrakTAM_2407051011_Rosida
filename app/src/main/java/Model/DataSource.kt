@@ -28,13 +28,8 @@ object DataSource {
             "12:00 - 14:00",
             "Melaksanakan ibadah tepat waktu",
             R.drawable.ibadah
-        ),
-        Aktivitas(
-            "Memasak nasi goreng",
-            "05:00 - 06:00",
-            "Memasak nasi goreng untuk sarapan pagi",
-            R.drawable.memasak
         )
+
     )
 
 }

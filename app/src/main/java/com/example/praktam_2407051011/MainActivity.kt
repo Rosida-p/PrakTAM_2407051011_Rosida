@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.praktam_2407051011.Model.Aktivitas
@@ -70,6 +71,7 @@ fun AktivitasItem(aktivitas: Aktivitas) {
             .padding(vertical = 6.dp),
         shape = RoundedCornerShape(12.dp)
     ) {
+
         Row(
             modifier = Modifier.padding(12.dp)
         ) {
@@ -86,6 +88,7 @@ fun AktivitasItem(aktivitas: Aktivitas) {
             Column(
                 modifier = Modifier.weight(1f)
             ) {
+
                 Text(
                     text = aktivitas.nama,
                     fontSize = 18.sp,
@@ -103,7 +106,25 @@ fun AktivitasItem(aktivitas: Aktivitas) {
                     text = aktivitas.deskripsi,
                     fontSize = 13.sp
                 )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Button(
+                    onClick = { },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Selesai")
+                }
             }
+
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AktivitasPreview() {
+    PrakTAM_2407051011Theme {
+        AktivitasScreen()
     }
 }
