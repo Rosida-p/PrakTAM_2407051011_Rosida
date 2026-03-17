@@ -9,9 +9,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,9 +34,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             PrakTAM_2407051011Theme {
-                Surface(
-                    modifier = Modifier.fillMaxSize()
-                ) {
+                Surface(modifier = Modifier.fillMaxSize()) {
                     AktivitasScreen()
                 }
             }
@@ -65,6 +68,9 @@ fun AktivitasScreen() {
 
 @Composable
 fun AktivitasItem(aktivitas: Aktivitas) {
+
+    var isFavorite by remember { mutableStateOf(false) }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -79,7 +85,7 @@ fun AktivitasItem(aktivitas: Aktivitas) {
             Image(
                 painter = painterResource(id = aktivitas.imageRes),
                 contentDescription = aktivitas.nama,
-                modifier = Modifier.size(75.dp),
+                modifier = Modifier.size(90.dp),
                 contentScale = ContentScale.Crop
             )
 
@@ -89,11 +95,29 @@ fun AktivitasItem(aktivitas: Aktivitas) {
                 modifier = Modifier.weight(1f)
             ) {
 
-                Text(
-                    text = aktivitas.nama,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = aktivitas.nama,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+                    )
+
+                    IconButton(
+                        onClick = { isFavorite = !isFavorite }
+                    ) {
+                        Icon(
+                            imageVector = if (isFavorite)
+                                Icons.Filled.Favorite
+                            else
+                                Icons.Filled.FavoriteBorder,
+                            contentDescription = "Favorite",
+                            tint = if (isFavorite) Color.Red else Color.Gray
+                        )
+                    }
+                }
 
                 Text(
                     text = "Jam: ${aktivitas.jam}",
@@ -116,7 +140,6 @@ fun AktivitasItem(aktivitas: Aktivitas) {
                     Text("Selesai")
                 }
             }
-
         }
     }
 }
