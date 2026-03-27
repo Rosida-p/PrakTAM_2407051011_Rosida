@@ -7,11 +7,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,9 +21,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.statusBarsPadding
 import com.example.praktam_2407051011.Model.Aktivitas
 import com.example.praktam_2407051011.Model.DataSource
 import com.example.praktam_2407051011.ui.theme.PrakTAM_2407051011Theme
@@ -42,25 +45,85 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
 fun AktivitasScreen() {
-    Column(
+
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .statusBarsPadding(),
+        contentPadding = PaddingValues(24.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
 
-        Text(
-            text = "Pengingat Aktivitas Harian",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold
-        )
+        item {
+            Text(
+                text = "Pengingat Aktivitas Harian",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-        LazyColumn {
-            items(DataSource.dummyAktivitas) { aktivitas ->
-                AktivitasItem(aktivitas)
+            Text(
+                text = "Aktivitas Prioritas",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(DataSource.dummyAktivitas) { aktivitas ->
+                    AktivitasRowItem(aktivitas)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(45.dp))
+
+            Text(
+                text = "Daftar Aktivitas Harian",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+        }
+
+        items(DataSource.dummyAktivitas) { aktivitas ->
+            AktivitasItem(aktivitas)
+        }
+    }
+}
+
+@Composable
+fun AktivitasRowItem(aktivitas: Aktivitas) {
+    Card(
+        modifier = Modifier.width(160.dp),
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Column {
+            Image(
+                painter = painterResource(id = aktivitas.imageRes),
+                contentDescription = aktivitas.nama,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp), // 90 → 100
+                contentScale = ContentScale.Crop
+            )
+
+            Column(modifier = Modifier.padding(8.dp)) {
+                Text(
+                    text = aktivitas.nama,
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = aktivitas.jam,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.primary
+                )
             }
         }
     }
@@ -72,82 +135,71 @@ fun AktivitasItem(aktivitas: Aktivitas) {
     var isFavorite by remember { mutableStateOf(false) }
 
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 6.dp),
-        shape = RoundedCornerShape(12.dp)
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        )
     ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
 
-        Row(
-            modifier = Modifier.padding(12.dp)
-        ) {
+            Box {
+                Image(
+                    painter = painterResource(id = aktivitas.imageRes),
+                    contentDescription = aktivitas.nama,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    contentScale = ContentScale.Crop
+                )
 
-            Image(
-                painter = painterResource(id = aktivitas.imageRes),
-                contentDescription = aktivitas.nama,
-                modifier = Modifier.size(90.dp),
-                contentScale = ContentScale.Crop
-            )
-
-            Spacer(modifier = Modifier.width(12.dp))
-
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
+                IconButton(
+                    onClick = { isFavorite = !isFavorite },
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(8.dp)
                 ) {
-                    Text(
-                        text = aktivitas.nama,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.weight(1f)
+                    Icon(
+                        imageVector = if (isFavorite)
+                            Icons.Filled.Favorite
+                        else
+                            Icons.Outlined.FavoriteBorder,
+                        contentDescription = "Favorite",
+                        tint = if (isFavorite) Color.Red else Color.White
                     )
-
-                    IconButton(
-                        onClick = { isFavorite = !isFavorite }
-                    ) {
-                        Icon(
-                            imageVector = if (isFavorite)
-                                Icons.Filled.Favorite
-                            else
-                                Icons.Filled.FavoriteBorder,
-                            contentDescription = "Favorite",
-                            tint = if (isFavorite) Color.Red else Color.Gray
-                        )
-                    }
-                }
-
-                Text(
-                    text = "Jam: ${aktivitas.jam}",
-                    fontSize = 13.sp
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Text(
-                    text = aktivitas.deskripsi,
-                    fontSize = 13.sp
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Button(
-                    onClick = { },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Selesai")
                 }
             }
-        }
-    }
-}
 
-@Preview(showBackground = true)
-@Composable
-fun AktivitasPreview() {
-    PrakTAM_2407051011Theme {
-        AktivitasScreen()
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = aktivitas.nama,
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = aktivitas.deskripsi,
+                style = MaterialTheme.typography.bodyLarge
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "Jam: ${aktivitas.jam}",
+                style = MaterialTheme.typography.bodyLarge
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = { },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Selesai")
+            }
+        }
     }
 }
