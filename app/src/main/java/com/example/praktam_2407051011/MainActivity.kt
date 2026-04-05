@@ -17,12 +17,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -37,14 +34,16 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             PrakTAM_2407051011Theme {
-                Surface(modifier = Modifier.fillMaxSize()) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
                     AktivitasScreen()
                 }
             }
         }
     }
 }
-
 
 @Composable
 fun AktivitasScreen() {
@@ -60,8 +59,8 @@ fun AktivitasScreen() {
         item {
             Text(
                 text = "Pengingat Aktivitas Harian",
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -69,7 +68,6 @@ fun AktivitasScreen() {
             Text(
                 text = "Aktivitas Prioritas",
                 style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
@@ -85,8 +83,7 @@ fun AktivitasScreen() {
 
             Text(
                 text = "Daftar Aktivitas Harian",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.titleLarge
             )
         }
 
@@ -109,15 +106,14 @@ fun AktivitasRowItem(aktivitas: Aktivitas) {
                 contentDescription = aktivitas.nama,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(100.dp), // 90 → 100
+                    .height(100.dp),
                 contentScale = ContentScale.Crop
             )
 
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(
                     text = aktivitas.nama,
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold
+                    style = MaterialTheme.typography.titleSmall
                 )
                 Text(
                     text = aktivitas.jam,
@@ -166,7 +162,10 @@ fun AktivitasItem(aktivitas: Aktivitas) {
                         else
                             Icons.Outlined.FavoriteBorder,
                         contentDescription = "Favorite",
-                        tint = if (isFavorite) Color.Red else Color.White
+                        tint = if (isFavorite)
+                            MaterialTheme.colorScheme.primary
+                        else
+                            MaterialTheme.colorScheme.onPrimary
                     )
                 }
             }
@@ -175,9 +174,9 @@ fun AktivitasItem(aktivitas: Aktivitas) {
 
             Text(
                 text = aktivitas.nama,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.titleLarge
             )
+
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
