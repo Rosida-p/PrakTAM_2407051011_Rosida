@@ -1,3 +1,4 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 pluginManagement {
     repositories {
         google {
@@ -22,6 +23,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "PrakTAM_2407051011"
+rootProject.name = "PrakTAM_2407051024"
 include(":app")
- 

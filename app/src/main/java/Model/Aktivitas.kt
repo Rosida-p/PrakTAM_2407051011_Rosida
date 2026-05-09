@@ -1,8 +1,19 @@
 package com.example.praktam_2407051011.Model
 
+import com.google.gson.annotations.SerializedName
+
 data class Aktivitas(
-    val nama: String,
+
+    @SerializedName("judul")
+    val judul: String,
+
+    @SerializedName("jam")
     val jam: String,
+
+    @SerializedName("deskripsi")
     val deskripsi: String,
-    val imageRes: Int
+
+    @SerializedName("image_url")
+    val imageUrl: String
+
 )
