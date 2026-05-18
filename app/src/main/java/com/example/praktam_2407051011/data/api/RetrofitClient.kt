@@ -1,4 +1,4 @@
-package com.example.praktam_2407051011.network
+package com.example.praktam_2407051011.data.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
 
     private const val BASE_URL =
-        "https://gist.githubusercontent.com/Rosida-p/7ef0c858cd72abe5f54a5d2487abcd3d/raw/3bf38c93cddb2cdc7488ca7fa3476b1136d5e625/"
+        "https://gist.githubusercontent.com/Rosida-p/7ef0c858cd72abe5f54a5d2487abcd3d/raw/c80b743fb918cf187f89716740e4bcef82d50541/"
 
     val instance: ApiService by lazy {
 
